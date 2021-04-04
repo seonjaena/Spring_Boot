@@ -17,6 +17,9 @@ spring:
     restart:
       enabled: true
 
+  thymeleaf:
+    cache: false
+
 logging:
   level:
     org.hibernate.SQL: debug
