@@ -1,14 +1,18 @@
 package com.sj.board_project.controller;
 
+import com.sj.board_project.dto.user.JoinUserDto;
 import com.sj.board_project.dto.user.LoginDto;
 import com.sj.board_project.dto.user.SessionDto;
 import com.sj.board_project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,6 +39,23 @@ public class UserController {
             model.addAttribute("msg", loginUserSession.getUser_nickname() + "님 환영합니다");
             model.addAttribute("loc", "/");
         }
+        return "message";
+    }
+
+    @GetMapping(value = "/join")
+    public String join(Model model) {
+        model.addAttribute("joinUserDto", new JoinUserDto());
+        return "user/join";
+    }
+
+    @PostMapping(value = "/join_do")
+    public String join_do(@Valid @ModelAttribute(name = "joinUserDto") JoinUserDto joinUserDto, BindingResult result, Model model, Errors errors) {
+        if(result.hasErrors()) {
+            return "user/join";
+        }
+        userService.join(joinUserDto);
+        model.addAttribute("msg", "회원가입이 완료되었습니다");
+        model.addAttribute("loc", "/user/login");
         return "message";
     }
 

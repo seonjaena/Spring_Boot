@@ -1,14 +1,17 @@
 package com.sj.board_project.service;
 
+import com.sj.board_project.dto.user.JoinUserDto;
 import com.sj.board_project.dto.user.SessionDto;
 import com.sj.board_project.model.User;
 import com.sj.board_project.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserService {
 
     private final UserRepository userRepository;
@@ -29,4 +32,31 @@ public class UserService {
         return sessionDto;
 
     }
+
+    @Transactional
+    public void join(JoinUserDto joinUserDto) {
+        User user = User.createJoinUser(joinUserDto.getUser_name(), joinUserDto.getUser_email(),
+                joinUserDto.getUser_id(), joinUserDto.getUser_pw(), joinUserDto.getUser_nickname(),
+                joinUserDto.getZip_code(), joinUserDto.getMain_addr(), joinUserDto.getReference_addr(), joinUserDto.getDetail_addr());
+        userRepository.join(user);
+    }
+
+    public String checkUserIdExist(String user_id) {
+        String user = userRepository.checkUserIdExist(user_id);
+        if(user.equals("true")) {
+            return "true";
+        }else {
+            return "false";
+        }
+    }
+
+    public String checkUserNickNameExist(String user_nickname) {
+        String user = userRepository.checkUserNickNameExist(user_nickname);
+        if(user.equals("true")) {
+            return "true";
+        }else {
+            return "false";
+        }
+    }
+
 }

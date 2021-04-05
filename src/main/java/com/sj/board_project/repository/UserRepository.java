@@ -25,4 +25,30 @@ public class UserRepository {
         }
     }
 
+    public void join(User user) {
+        em.persist(user);
+    }
+
+    public String checkUserIdExist(String user_id) {
+        try {
+            String user = em.createQuery("SELECT u.user_id FROM User u WHERE u.user_id = :user_id", String.class)
+                    .setParameter("user_id", user_id)
+                    .getSingleResult();
+            return "true";
+        }catch(Exception e) {
+            return "false";
+        }
+    }
+
+    public String checkUserNickNameExist(String user_nickname) {
+        try {
+            String user = em.createQuery("SELECT u.user_nickname FROM User u WHERE u.user_nickname = :user_nickname", String.class)
+                    .setParameter("user_nickname", user_nickname)
+                    .getSingleResult();
+            return "true";
+        }catch(Exception e) {
+            return "false";
+        }
+    }
+
 }
