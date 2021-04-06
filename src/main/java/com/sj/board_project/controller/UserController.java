@@ -50,8 +50,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/join_do")
-    public String join_do(@Valid @ModelAttribute(name = "joinUserDto") JoinUserDto joinUserDto,
-                          BindingResult result, Model model, Errors errors) throws Exception {
+    public String join_do(@Valid @ModelAttribute(name = "joinUserDto") JoinUserDto joinUserDto, BindingResult result, Model model, Errors errors) {
 
         new JoinValidator().validate(joinUserDto, errors);
 
