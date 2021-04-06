@@ -4,6 +4,7 @@ import com.sj.board_project.dto.user.JoinUserDto;
 import com.sj.board_project.dto.user.LoginDto;
 import com.sj.board_project.dto.user.SessionDto;
 import com.sj.board_project.service.UserService;
+import com.sj.board_project.validation.JoinValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,13 +50,22 @@ public class UserController {
     }
 
     @PostMapping(value = "/join_do")
-    public String join_do(@Valid @ModelAttribute(name = "joinUserDto") JoinUserDto joinUserDto, BindingResult result, Model model, Errors errors) {
+    public String join_do(@Valid @ModelAttribute(name = "joinUserDto") JoinUserDto joinUserDto,
+                          BindingResult result, Model model, Errors errors) throws Exception {
+
+        new JoinValidator().validate(joinUserDto, errors);
+
         if(result.hasErrors()) {
             return "user/join";
         }
-        userService.join(joinUserDto);
-        model.addAttribute("msg", "회원가입이 완료되었습니다");
-        model.addAttribute("loc", "/user/login");
+        try {
+            userService.join(joinUserDto);
+            model.addAttribute("msg", "회원가입이 완료되었습니다");
+            model.addAttribute("loc", "/user/login");
+        }catch(Exception e) {
+            model.addAttribute("msg", "회원가입에 실패하였습니다");
+            model.addAttribute("loc", "/user/join");
+        }
         return "message";
     }
 
