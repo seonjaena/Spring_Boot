@@ -8,18 +8,9 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav" th:each="lists : ${#request.getAttribute('topMenuList')}">
             <li class="nav-item">
-                <a href="../../../../../소스+자료+PPT/소스%20및%20자료/미니프로젝트%20HTML/board_main.html" class="nav-link">자유게시판</a>
-            </li>
-            <li class="nav-item">
-                <a href="../../../../../소스+자료+PPT/소스%20및%20자료/미니프로젝트%20HTML/board_main.html" class="nav-link">유머게시판</a>
-            </li>
-            <li class="nav-item">
-                <a href="../../../../../소스+자료+PPT/소스%20및%20자료/미니프로젝트%20HTML/board_main.html" class="nav-link">정치게시판</a>
-            </li>
-            <li class="nav-item">
-                <a href="../../../../../소스+자료+PPT/소스%20및%20자료/미니프로젝트%20HTML/board_main.html" class="nav-link">스포츠게시판</a>
+                <a th:href="@{/board/main(idx=${lists.board_type_idx})}" class="nav-link" th:text="${lists.board_type_name}"></a>
             </li>
         </ul>
 

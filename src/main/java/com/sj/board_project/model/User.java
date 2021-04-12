@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -48,6 +49,15 @@ public class User {
 
     @Column(name = "IS_VALIDATION")
     private int is_validation;
+
+    @Column(name = "JOIN_TIME")
+    private LocalDateTime join_time;
+
+    @Column(name = "LAST_LOGIN_TIME")
+    private LocalDateTime last_login_time;
+
+    @Column(name = "DELETE_TIME")
+    private LocalDateTime delete_time;
 
     public static User createJoinUser(String user_name, String user_email, String user_id, String user_pw, String user_nickname, String zip_code, String main_addr, String reference_addr, String detail_addr) {
         User user = new User();

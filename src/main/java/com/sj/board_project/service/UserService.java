@@ -5,6 +5,7 @@ import com.sj.board_project.dto.user.SessionDto;
 import com.sj.board_project.model.User;
 import com.sj.board_project.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,6 +58,12 @@ public class UserService {
         }else {
             return "false";
         }
+    }
+
+    @Transactional
+    @Scheduled(cron = "0 0 1 * * ?")
+    public void deleteUserId() {
+        userRepository.deleteUserId();
     }
 
 }
